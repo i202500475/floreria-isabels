@@ -1,0 +1,106 @@
+# Prueba integral: levanta MySQL y la aplicación completa (backend + Angular en /tienda/),
+# ejecuta la colección de Postman con newman y recorre la tienda en un navegador real
+# tomando capturas. Los resultados se guardan en la rama "evidencias".
+name: Evidencias - prueba integral
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  integral:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: floreria
+        ports: [ "3306:3306" ]
+        options: >-
+          --health-cmd="mysqladmin ping -proot" --health-interval=10s --health-timeout=5s --health-retries=10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar Angular para /tienda/
+        working-directory: floreria-frontend
+        run: |
+          npm install --no-audit --no-fund
+          npx ng build --configuration production --base-href /tienda/
+          mkdir -p ../ProyectoFloreria/src/main/resources/static/tienda
+          cp -r dist/floreria-frontend/browser/* ../ProyectoFloreria/src/main/resources/static/tienda/
+
+      - name: Pruebas JUnit y empaquetado
+        working-directory: ProyectoFloreria
+        run: mvn -B package
+
+      - name: Resumen de pruebas JUnit
+        if: always()
+        run: |
+          mkdir -p evidencias
+          python3 - <<'PY' | tee evidencias/junit-resumen.txt
+          import glob, xml.etree.ElementTree as ET
+          tot=fal=err=sk=0
+          for f in sorted(glob.glob('ProyectoFloreria/target/surefire-reports/TEST-*.xml')):
+              r=ET.parse(f).getroot(); t,fa,e,s=(int(r.get(k,0)) for k in ('tests','failures','errors','skipped'))
+              tot+=t; fal+=fa; err+=e; sk+=s
+              print(f"{r.get('name').split('.')[-1]:32s} pruebas={t:2d} fallas={fa} errores={e}")
+              for tc in r.findall('testcase'):
+                  estado = 'FALLA' if (tc.find('failure') is not None or tc.find('error') is not None) else 'OK'
+                  print(f"    {estado:5s} {tc.get('name')}")
+          print(f"TOTAL pruebas={tot} fallas={fal} errores={err} omitidas={sk}")
+          PY
+          echo "::notice::JUnit: $(tail -1 evidencias/junit-resumen.txt)"
+
+      - name: Iniciar la aplicación con MySQL
+        run: |
+          nohup java -jar ProyectoFloreria/target/*.jar \
+            --spring.datasource.url="jdbc:mysql://127.0.0.1:3306/floreria?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false" \
+            --spring.datasource.username=root --spring.datasource.password=root \
+            --server.port=8080 > evidencias/servidor.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8080/api/flores > /dev/null && echo "Servidor listo" && break; sleep 3
+          done
+          curl -sf http://localhost:8080/api/flores > /dev/null || { tail -80 evidencias/servidor.log | sed 's/^/::error::/'; exit 1; }
+          curl -sf http://localhost:8080/tienda/ | grep -q "<app-root" && echo "Angular servido en /tienda/"
+
+      - name: Postman con newman
+        run: |
+          npx --yes newman@6 run Floreria_API.postman_collection.json --reporters cli,json \
+            --reporter-json-export evidencias/newman.json --no-color | tee evidencias/newman-resultado.txt
+          echo "::notice::newman: $(grep -E 'assertions' evidencias/newman-resultado.txt | tr -s ' ')"
+
+      - name: Recorrido en el navegador (Playwright)
+        working-directory: pruebas-e2e
+        run: |
+          npm init -y > /dev/null
+          npm install --no-audit --no-fund playwright@1.47.2
+          npx playwright install --with-deps chromium
+          OUT=../evidencias/capturas node recorrido.mjs || { sed 's/^/::error::/' ../evidencias/capturas/resultado-recorrido.txt; exit 1; }
+
+      - name: Contraseñas en MySQL (hash BCrypt)
+        if: always()
+        run: |
+          mysql -h127.0.0.1 -uroot -proot -t -e "SELECT id, username, password FROM floreria.usuarios; SELECT id, nombre, precio, stock FROM floreria.flores; SELECT id, cliente_id, descripcion_productos, total, estado, metodo_pago FROM floreria.pedidos;" | tee evidencias/mysql.txt
+
+      - name: Publicar evidencias en la rama "evidencias"
+        if: always()
+        run: |
+          cd evidencias
+          git init -q -b evidencias
+          git add -A
+          git -c user.name="github-actions" -c user.email="actions@github.com" commit -qm "Evidencias ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" evidencias

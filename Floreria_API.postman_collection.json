@@ -56,6 +56,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
                   "if (pm.response.code === 200) { pm.collectionVariables.set('tokenAdmin', pm.response.json().token); }"
                 ]
               }
@@ -96,6 +97,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
                   "if (pm.response.code === 200) { pm.collectionVariables.set('tokenDelivery', pm.response.json().token); }"
                 ]
               }
@@ -129,7 +131,18 @@
               "mode": "raw",
               "raw": "{\n  \"username\": \"cliente1\",\n  \"password\": \"clave123\",\n  \"nombreCompleto\": \"Cliente Demo\",\n  \"correo\": \"cliente1@mail.com\",\n  \"direccion\": \"Av. Arequipa 123\"\n}"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Login cliente (200, guarda token)",
@@ -165,6 +178,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
                   "if (pm.response.code === 200) { pm.collectionVariables.set('tokenCliente', pm.response.json().token); }"
                 ]
               }
@@ -198,7 +212,18 @@
               "mode": "raw",
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"clave123\",\n  \"nombreCompleto\": \"Otro\"\n}"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Clave incorrecta (401)",
@@ -227,7 +252,18 @@
               "mode": "raw",
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"xxxx\"\n}"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Campos vacíos (400)",
@@ -256,7 +292,18 @@
               "mode": "raw",
               "raw": "{\n  \"username\": \"\",\n  \"password\": \"\"\n}"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -285,7 +332,18 @@
                 "flores"
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "GET por id",
@@ -310,7 +368,18 @@
                 "1"
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "POST registrar (admin, 201)",
@@ -347,7 +416,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "PUT actualizar (admin)",
@@ -385,7 +465,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "DELETE eliminar (admin)",
@@ -419,7 +510,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "POST datos inválidos (400)",
@@ -456,7 +558,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "POST sin token (401)",
@@ -484,7 +597,18 @@
               "mode": "raw",
               "raw": "{\n  \"nombre\": \"X\",\n  \"precio\": 10,\n  \"stock\": 1\n}"
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "POST como cliente (403)",
@@ -521,7 +645,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -563,7 +698,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "POST stock insuficiente (409)",
@@ -600,7 +746,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 409', function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "GET mis pedidos (cliente)",
@@ -634,7 +791,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "GET todos (admin)",
@@ -667,7 +835,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "GET todos como cliente (403)",
@@ -700,7 +879,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "PUT estado EN_CAMINO (delivery)",
@@ -739,7 +929,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "PUT estado ENTREGADO (delivery)",
@@ -778,7 +979,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "DELETE pedido (admin)",
@@ -812,7 +1024,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -851,7 +1074,18 @@
                 }
               ]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
         }
       ]
     }

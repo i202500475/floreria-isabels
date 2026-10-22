@@ -34,7 +34,7 @@
               <div class="fw-semibold">{{ f.nombre }}</div>
               <small class="text-muted">{{ f.descripcion }}</small>
             </td>
-            <td>{{ f.precio | currency:'PEN':'S/ ':'1.2-2' }}</td>
+            <td>{{ f.precio | currency:'PEN':'S/':'1.2-2' }}</td>
             <td>
               @if (f.stock > 0) {
                 <span class="badge text-bg-light">{{ f.stock }}</span>

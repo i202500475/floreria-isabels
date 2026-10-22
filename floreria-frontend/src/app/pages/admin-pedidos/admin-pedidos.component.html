@@ -14,7 +14,7 @@
 @if (auth.esAdmin()) {
   <div class="row g-3 mb-3">
     <div class="col-6 col-md-3"><div class="card tarjeta p-3"><small class="text-muted">Pedidos</small><span class="fs-4 fw-semibold">{{ pedidos().length }}</span></div></div>
-    <div class="col-6 col-md-3"><div class="card tarjeta p-3"><small class="text-muted">Total vendido</small><span class="fs-4 fw-semibold precio">{{ totalVendido() | currency:'PEN':'S/ ':'1.0-0' }}</span></div></div>
+    <div class="col-6 col-md-3"><div class="card tarjeta p-3"><small class="text-muted">Total vendido</small><span class="fs-4 fw-semibold precio">{{ totalVendido() | currency:'PEN':'S/':'1.0-0' }}</span></div></div>
   </div>
 }
 
@@ -43,7 +43,7 @@
               <div>{{ p.descripcion }}</div>
               <small class="text-muted"><i class="bi bi-geo-alt"></i> {{ p.direccionEntrega }}</small>
             </td>
-            <td class="text-nowrap">{{ p.total | currency:'PEN':'S/ ':'1.2-2' }}</td>
+            <td class="text-nowrap">{{ p.total | currency:'PEN':'S/':'1.2-2' }}</td>
             <td><span class="badge badge-estado estado-{{ p.estado }}">{{ texto(p.estado) }}</span></td>
             <td class="text-end text-nowrap">
               @if (!cerrado(p)) {
