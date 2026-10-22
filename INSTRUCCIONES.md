@@ -57,6 +57,21 @@ En Postman se puede usar el token o Basic Auth (`admin / 1234`).
 
 ## 6. Publicar en Azure (Azure for Students)
 
+**Publicado en:** https://floreria-isabels-c6495e.azurewebsites.net/tienda/ (región Chile Central).
+
+**Forma rápida (usada):** en Azure Cloud Shell (Bash) ejecutar
+```bash
+curl -sLo desplegar.sh https://raw.githubusercontent.com/i202500475/floreria-isabels/main/azure/desplegar.sh
+LOC_OVERRIDE=chilecentral bash desplegar.sh
+```
+El script crea MySQL servidor flexible B1ms, App Service B1 (Java 17), configura las variables, compila Angular + JAR y publica. Al final muestra la URL y la clave del usuario admin.
+
+> En la suscripción de estudiante solo están permitidas eastus, brazilsouth, canadacentral, westus y chilecentral, y MySQL B1ms solo estaba disponible en **chilecentral**.
+
+**Para borrar todo después de la sustentación** (deja de consumir crédito): `az group delete -n floreria-rg --yes`
+
+### Forma manual (portal)
+
 La tienda se publica como **una sola aplicación**: el JAR de Spring Boot incluye Angular en `/tienda/`.
 La URL final queda así: `https://<nombre-app>.azurewebsites.net/tienda/`
 
