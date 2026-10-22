@@ -81,7 +81,7 @@ jobs:
         run: |
           set -o pipefail
           npx --yes newman@6 run Floreria_API.postman_collection.json --reporters cli,json \
-            --reporter-json-export evidencias/newman.json --no-color 2>&1 | tee evidencias/newman-resultado.txt
+            --reporter-json-export evidencias/newman.json --color off 2>&1 | tee evidencias/newman-resultado.txt
           echo "::notice::newman: $(grep -E 'assertions' evidencias/newman-resultado.txt | tr -s ' ')"
 
       - name: Recorrido en el navegador (Playwright)
