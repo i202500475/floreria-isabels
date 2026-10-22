@@ -57,6 +57,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // 1. RECURSOS ESTÁTICOS
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
+                // Página de error interna de Spring: debe ser pública para que un 403 (rol sin permiso)
+                // llegue como 403 al cliente y no se convierta en 401 en el servidor real
+                .requestMatchers("/error").permitAll()
                 // Aplicación Angular publicada dentro del mismo servidor
                 .requestMatchers("/tienda", "/tienda/**").permitAll()
 
