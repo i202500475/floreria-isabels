@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Despliega la tienda Isabel's en Azure (Azure for Students) desde Azure Cloud Shell.
 # Crea: grupo de recursos, MySQL servidor flexible B1ms, plan App Service B1 (Linux) y la aplicación web.
-# Uso:  curl -sL https://raw.githubusercontent.com/i202500475/floreria-isabels/main/azure/desplegar.sh | bash
+# Uso:  curl -sLo desplegar.sh https://raw.githubusercontent.com/i202500475/floreria-isabels/main/azure/desplegar.sh && bash desplegar.sh
 # Se puede volver a ejecutar: reutiliza los nombres y contraseñas guardados en ~/floreria.env
 set -euo pipefail
 
 CONF=~/floreria.env
 if [ -f "$CONF" ]; then source "$CONF"; else
-  SUF=$(tr -dc 'a-z0-9' </dev/urandom | head -c 5)
+  SUF=$(openssl rand -hex 3)
   RG=floreria-rg
   # Usa la región de una aplicación existente (las suscripciones de estudiante limitan las regiones)
   LOC=$(az webapp list --query "[0].location" -o tsv 2>/dev/null | tr -d ' ' | tr 'A-Z' 'a-z')
@@ -16,8 +16,8 @@ if [ -f "$CONF" ]; then source "$CONF"; else
   PLAN=floreria-plan-$SUF
   MYSQL=floreria-mysql-$SUF
   DBUSER=floreriaadmin
-  DBPASS="Fl0r$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 18)!"
-  ADMINPASS="Isabels-$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 8)"
+  DBPASS="Fl0r$(openssl rand -hex 9)X!"
+  ADMINPASS="Isabels-$(openssl rand -hex 4)"
   printf 'SUF=%s\nRG=%s\nLOC=%s\nAPP=%s\nPLAN=%s\nMYSQL=%s\nDBUSER=%s\nDBPASS=%q\nADMINPASS=%q\n' \
     "$SUF" "$RG" "$LOC" "$APP" "$PLAN" "$MYSQL" "$DBUSER" "$DBPASS" "$ADMINPASS" > "$CONF"
 fi
