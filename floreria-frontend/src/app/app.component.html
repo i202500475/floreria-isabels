@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
+  <div class="container">
+    <a class="navbar-brand marca" routerLink="/">Isabel's</a>
+    <button class="navbar-toggler" type="button" (click)="menuAbierto = !menuAbierto" aria-label="Abrir menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" [class.show]="menuAbierto">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="fw-semibold" [routerLinkActiveOptions]="{ exact: true }" (click)="menuAbierto = false">Catálogo</a>
+        </li>
+        @if (auth.logueado()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/mis-pedidos" routerLinkActive="fw-semibold" (click)="menuAbierto = false">Mis pedidos</a>
+          </li>
+        }
+        @if (auth.esAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/flores" routerLinkActive="fw-semibold" (click)="menuAbierto = false">Gestionar flores</a>
+          </li>
+        }
+        @if (auth.esAdmin() || auth.esDelivery()) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/pedidos" routerLinkActive="fw-semibold" (click)="menuAbierto = false">
+              {{ auth.esDelivery() && !auth.esAdmin() ? 'Entregas' : 'Pedidos' }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <div class="d-flex align-items-center gap-2">
+        @if (auth.sesion(); as s) {
+          <span class="small text-muted"><i class="bi bi-person-circle me-1"></i>{{ s.nombreCompleto || s.username }}</span>
+          <button class="btn btn-outline-secondary btn-sm rounded-pill" (click)="salir()">Salir</button>
+        } @else {
+          <a class="btn btn-outline-secondary btn-sm rounded-pill" routerLink="/registro" (click)="menuAbierto = false">Crear cuenta</a>
+          <a class="btn btn-rosa btn-sm" routerLink="/login" (click)="menuAbierto = false">Iniciar sesión</a>
+        }
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-4">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="text-center text-muted small py-4">
+  Isabel's · Detalles que enamoran — Proyecto DAWII, Cibertec 2026
+</footer>

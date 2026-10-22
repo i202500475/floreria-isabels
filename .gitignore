@@ -1,0 +1,11 @@
+# Backend
+ProyectoFloreria/target/
+ProyectoFloreria/src/main/resources/static/tienda/
+# Frontend
+floreria-frontend/node_modules/
+floreria-frontend/dist/
+floreria-frontend/.angular/
+# IDE
+.metadata/
+.idea/
+.vscode/

@@ -1,0 +1,46 @@
+# Publica la tienda (backend + Angular en un solo JAR) en Azure App Service.
+# Requisitos en GitHub (Settings > Secrets and variables > Actions):
+#   - Variable  AZURE_WEBAPP_NAME             -> nombre del App Service (ej. floreria-isabels)
+#   - Secreto   AZURE_WEBAPP_PUBLISH_PROFILE  -> contenido del "perfil de publicación" del App Service
+name: Publicar en Azure
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  publicar:
+    if: ${{ vars.AZURE_WEBAPP_NAME != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Compilar Angular para /tienda/
+        working-directory: floreria-frontend
+        run: |
+          npm install --no-audit --no-fund
+          npx ng build --configuration production --base-href /tienda/
+      - name: Copiar Angular dentro del backend
+        run: |
+          mkdir -p ProyectoFloreria/src/main/resources/static/tienda
+          cp -r floreria-frontend/dist/floreria-frontend/browser/* ProyectoFloreria/src/main/resources/static/tienda/
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Pruebas y empaquetado
+        working-directory: ProyectoFloreria
+        run: mvn -B package
+
+      - name: Publicar en Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ProyectoFloreria/target/*.jar

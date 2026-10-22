@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>¡Gracias por tu compra! | Isabel's</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background: #fff0f3; font-family: 'Poppins', sans-serif; display: flex; align-items: center; min-height: 100vh; }
+        .success-card {
+            background: white; border-radius: 30px; padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 77, 109, 0.15);
+            max-width: 600px; width: 90%; margin: auto; text-align: center;
+        }
+        .check-icon { font-size: 80px; color: #25d366; animation: scaleIn 0.5s ease-out; }
+        .order-details {
+            background: #fdfcfc; border: 1px dashed #ffccd5;
+            border-radius: 20px; padding: 20px; margin: 25px 0; text-align: left;
+        }
+        .btn-voucher {
+            background: #ff4d6d; color: white; border: none; border-radius: 15px;
+            padding: 12px 30px; font-weight: 600; width: 100%; transition: 0.3s;
+        }
+        .btn-voucher:hover { background: #e63958; transform: translateY(-3px); color: white; }
+        @keyframes scaleIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <div class="success-card">
+        <i class="bi bi-check-circle-fill check-icon"></i>
+        <h1 class="fw-bold mt-3">¡Pedido Confirmado!</h1>
+        <p class="text-muted">Gracias por confiar en Isabel's. Tu detalle está siendo preparado con amor.</p>
+
+        <div class="order-details">
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Código de Pedido:</span>
+                <strong th:text="${codigoPedido}"></strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Producto:</span>
+                <strong th:text="${flor.nombre}"></strong>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Entrega en:</span>
+                <strong th:text="${direccion}"></strong>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <span>Total Pagado:</span>
+                <strong class="text-danger fs-5" th:text="'S/ ' + ${flor.precio}"></strong>
+            </div>
+        </div>
+
+        <button onclick="window.print()" class="btn btn-voucher mb-3">
+            <i class="bi bi-download me-2"></i> Descargar Voucher (PDF)
+        </button>
+        <a href="/" class="text-muted text-decoration-none small">Volver a la tienda</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<div class="card shadow-lg border-0 rounded-4 p-4" style="background: #fff0f3;">
+    <div class="text-center">
+        <h2 class="fw-bold text-danger">¡Gracias por tu compra en Isabel's! 🌸</h2>
+        <div class="badge bg-primary px-3 py-2 rounded-pill mb-3">Tu pedido ya está en camino</div>
+    </div>
+    
+    <div class="bg-white rounded-3 p-3 my-3 shadow-sm">
+        <p class="mb-1"><strong>N° de Pedido:</strong> #<span th:text="${pedido.id}"></span></p>
+        <p class="mb-1"><strong>Entregar en:</strong> <span th:text="${pedido.direccionEntrega}"></span></p>
+        <p class="mb-0 text-success fw-bold">Total: S/ <span th:text="${pedido.total}"></span></p>
+    </div>
+
+    <div class="alert alert-light border-0 small text-center">
+        "Nuestras flores están frescas y listas para alegrar tu día. 
+        ¡Por favor, espéranos pronto!"
+    </div>
+</div>

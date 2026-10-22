@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Regalo | Isabel's</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body { background: #fffafb; font-family: 'Poppins', sans-serif; }
+        .detail-container { background: white; border-radius: 30px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.08); margin-top: 50px; }
+        .img-side { width: 100%; height: 600px; object-fit: cover; }
+        .occasion-box { background: #fff0f3; padding: 15px; border-radius: 15px; border-left: 5px solid #ff4d6d; }
+        .price-tag { font-size: 2.5rem; color: #ff4d6d; font-weight: 700; }
+        
+        /* Botón de Pago Estilizado */
+        .btn-pago { 
+            background: #ff4d6d; 
+            color: white; 
+            border-radius: 50px; 
+            padding: 18px; 
+            font-weight: 600; 
+            text-decoration: none; 
+            display: block; 
+            text-align: center; 
+            transition: 0.3s;
+            border: none;
+            font-size: 1.1rem;
+        }
+        .btn-pago:hover { background: #e63958; color: white; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <a href="/" class="btn btn-link text-danger text-decoration-none fw-bold mb-3">← Regresar a la florería</a>
+        
+        <div class="detail-container">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img th:src="${flor.imagenUrl}" class="img-side" alt="detalle-isabels">
+                </div>
+                
+                <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
+                    <span class="text-uppercase text-muted ls-2 small mb-2">Exclusivo de Isabel's</span>
+                    <h1 class="fw-bold mb-3" style="font-family: 'Playfair Display'; font-size: 3rem;" th:text="${flor.nombre}">Título</h1>
+                    
+                    <div class="price-tag mb-4" th:text="'S/ ' + ${flor.precio}">S/ 0.00</div>
+                    
+                    <h5 class="fw-bold mt-2">¿Qué incluye este detalle?</h5>
+                    <p class="text-muted mb-4" th:text="${flor.descripcion}">Descripción de flores, follaje y envase.</p>
+
+                    <div class="occasion-box mb-5">
+                        <h6 class="fw-bold text-danger"><i class="bi bi-heart-fill"></i> Elige tu frase para la tarjeta:</h6>
+                        <ul class="mb-0 small text-dark">
+                            <li><strong>Cumpleaños:</strong> "Que este detalle ilumine tu día tanto como tú iluminas el nuestro. ¡Feliz dia!"</li>
+                            <li><strong>Aniversario:</strong> "A tu lado, la vida siempre florece. Por muchos años más de este amor."</li>
+                            <li><strong>Casual/Sorpresa:</strong> "No hace falta una fecha especial para recordarte lo importante que eres para mí."</li>
+                        </ul>
+                    </div>
+
+                    <a th:href="@{/pago/{id}(id=${flor.id})}" class="btn-pago">
+                        <i class="bi bi-credit-card-2-front"></i> Continuar al Pago
+                    </a>
+                    <p class="text-center text-muted small mt-2">Compra segura con Yape o Tarjeta</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

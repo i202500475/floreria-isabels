@@ -1,0 +1,34 @@
+<h2 class="mb-4">Mis pedidos</h2>
+
+@if (cargando()) {
+  <p class="text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Cargando...</p>
+} @else if (error()) {
+  <div class="alert alert-danger">{{ error() }}</div>
+} @else {
+  <div class="row g-3">
+    @for (p of pedidos(); track p.id) {
+      <div class="col-md-6">
+        <div class="card tarjeta p-3 h-100">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="mb-0 fw-semibold">{{ p.codigo }}</h6>
+              <small class="text-muted">{{ p.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</small>
+            </div>
+            <span class="badge badge-estado estado-{{ p.estado }}">{{ texto(p.estado) }}</span>
+          </div>
+          <p class="mt-2 mb-1">{{ p.descripcion }}</p>
+          <p class="small text-muted mb-2"><i class="bi bi-geo-alt me-1"></i>{{ p.direccionEntrega }}</p>
+          <div class="d-flex justify-content-between">
+            <small class="text-muted">Pago: {{ p.metodoPago }}</small>
+            <span class="precio">{{ p.total | currency:'PEN':'S/ ':'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="text-center text-muted py-5">
+        <p>Aún no tienes pedidos.</p>
+        <a class="btn btn-rosa" routerLink="/">Ver catálogo</a>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Admin | Isabel's</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --deep-pink: #ff4d6d;
+            --soft-pink: #fff0f3;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--soft-pink);
+        }
+
+        .login-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(255, 77, 109, 0.15);
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            min-height: 600px;
+        }
+
+        /* --- LADO IZQUIERDO: IMAGEN Y TEXTO --- */
+        .login-visual {
+            background: linear-gradient(rgba(255, 77, 109, 0.6), rgba(255, 77, 109, 0.8)),
+                        url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            width: 50%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+
+        .visual-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .visual-quote {
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.6;
+            border-left: 3px solid white;
+            padding-left: 20px;
+        }
+
+        /* --- LADO DERECHO: FORMULARIO --- */
+        .login-form-area {
+            width: 50%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            background-color: #fdfdfd;
+        }
+
+        .form-control:focus {
+            border-color: var(--deep-pink);
+            box-shadow: 0 0 0 0.25rem rgba(255, 77, 109, 0.1);
+        }
+
+        .input-group-text {
+            background: none;
+            border: 1px solid #eee;
+            border-right: none;
+            color: var(--deep-pink);
+            border-radius: 10px 0 0 10px;
+        }
+
+        .form-control-with-icon {
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .btn-entrar {
+            background-color: var(--deep-pink);
+            color: white;
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: 600;
+            width: 100%;
+            border: none;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-entrar:hover {
+            background-color: #e63958;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-box { flex-direction: column; }
+            .login-visual, .login-form-area { width: 100%; padding: 40px; }
+            .login-visual { min-height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box shadow">
+            
+            <div class="login-visual d-none d-md-flex">
+                <div class="visual-logo">Isabel's</div>
+                <div class="visual-quote">
+                    "Donde las flores cuentan historias y los detalles enamoran. Gestiona la magia detrás de cada sonrisa."
+                </div>
+            </div>
+
+            <div class="login-form-area">
+                <div class="form-header text-center mb-5">
+                    <i class="bi bi-lock-fill text-danger fs-1"></i>
+                    <h3>Panel Admin</h3>
+                    <p class="text-muted">Ingresa tus datos para continuar</p>
+                </div>
+
+                <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show small" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Usuario o contraseña incorrectos.
+                    <button type="button" class="btn-close" data-bs-dismiss="dismiss" aria-label="Close"></button>
+                </div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">Usuario / Correo</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" name="username" class="form-control form-control-with-icon" placeholder="admin" required autofocus>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            <input type="password" name="password" class="form-control form-control-with-icon" placeholder="****" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-entrar shadow-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> Entrar al Panel
+                    </button>
+                </form>
+
+                <div class="text-center mt-5 small">
+                    <a th:href="@{/}" class="text-muted text-decoration-none">
+                        <i class="bi bi-arrow-left"></i> Volver a la tienda
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

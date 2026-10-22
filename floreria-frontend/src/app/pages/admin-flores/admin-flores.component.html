@@ -1,0 +1,57 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <h2 class="mb-0">Gestionar flores</h2>
+  <a class="btn btn-rosa" routerLink="/admin/flores/nueva"><i class="bi bi-plus-lg me-1"></i>Nueva flor</a>
+</div>
+
+@if (mensaje()) {
+  <div class="alert alert-success py-2">{{ mensaje() }}</div>
+}
+@if (error()) {
+  <div class="alert alert-danger py-2">{{ error() }}</div>
+}
+
+@if (porEliminar(); as f) {
+  <div class="alert alert-warning d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <span>¿Eliminar <strong>{{ f.nombre }}</strong>? Esta acción no se puede deshacer.</span>
+    <span>
+      <button class="btn btn-sm btn-danger me-2" (click)="confirmarEliminar()">Sí, eliminar</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="porEliminar.set(null)">Cancelar</button>
+    </span>
+  </div>
+}
+
+<div class="card tarjeta p-2">
+  <div class="table-responsive">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr><th>ID</th><th>Flor</th><th>Precio</th><th>Stock</th><th class="text-end">Acciones</th></tr>
+      </thead>
+      <tbody>
+        @for (f of flores(); track f.id) {
+          <tr>
+            <td>{{ f.id }}</td>
+            <td>
+              <div class="fw-semibold">{{ f.nombre }}</div>
+              <small class="text-muted">{{ f.descripcion }}</small>
+            </td>
+            <td>{{ f.precio | currency:'PEN':'S/ ':'1.2-2' }}</td>
+            <td>
+              @if (f.stock > 0) {
+                <span class="badge text-bg-light">{{ f.stock }}</span>
+              } @else {
+                <span class="badge text-bg-danger">Agotado</span>
+              }
+            </td>
+            <td class="text-end text-nowrap">
+              <button class="btn btn-sm btn-outline-success me-1" title="Reponer 5" (click)="reponer(f)"><i class="bi bi-plus-circle"></i> 5</button>
+              <a class="btn btn-sm btn-outline-primary me-1" [routerLink]="['/admin/flores', f.id, 'editar']" title="Editar"><i class="bi bi-pencil"></i></a>
+              <button class="btn btn-sm btn-outline-danger" title="Eliminar" (click)="porEliminar.set(f)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5" class="text-center text-muted py-4">No hay flores registradas.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

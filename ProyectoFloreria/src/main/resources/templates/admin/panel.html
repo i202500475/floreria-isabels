@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Isabel's | Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --isabel-pink: #ff4d6d; --sidebar-dark: #1e293b; }
+        body { background-color: #f4f7fa; font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .main-card { border: none; border-radius: 30px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        
+        .stat-card {
+            border: none; border-radius: 20px; transition: 0.4s;
+            background: white; border: 1px solid #f0f0f0;
+        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .icon-shape {
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa; border: none; color: #64748b;
+            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; padding: 20px;
+        }
+        .table tbody td { padding: 20px; vertical-align: middle; border-bottom: 1px solid #f1f5f9; }
+        
+        .btn-add { 
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff758c 100%); 
+            color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: 700;
+        }
+        .btn-add:hover { color: white; transform: scale(1.05); box-shadow: 0 8px 15px rgba(255, 77, 109, 0.3); }
+
+        .stock-badge { 
+            padding: 8px 15px; border-radius: 12px; font-weight: 700; font-size: 0.8rem;
+        }
+        .img-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="p-3 p-lg-5">
+    <div class="container-fluid">
+        <div class="main-card p-4 p-lg-5">
+            
+            <!-- Top Bar -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Catálogo de Flores</h2>
+                    <p class="text-muted mb-0">Gestiona tus productos y niveles de stock en tiempo real.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a th:href="@{/}" class="btn btn-light rounded-pill px-4 py-2 border"><i class="bi bi-eye me-2"></i>Tienda</a>
+                    <a th:href="@{/admin/nuevo}" class="btn btn-add rounded-pill"><i class="bi bi-plus-lg me-2"></i>Nueva Flor</a>
+                </div>
+            </div>
+
+            <!-- Stats Boxes -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="stat-card p-4 d-flex align-items-center">
+                        <div class="icon-shape bg-success-subtle text-success me-3"><i class="bi bi-check-circle-fill"></i></div>
+                        <div>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Productos Disponibles</h6>
+                            <h3 class="fw-bold mb-0" th:text="${flores.?[stock > 0].size()}">0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card p-4 d-flex align-items-center">
+                        <div class="icon-shape bg-danger-subtle text-danger me-3"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                        <div>
+                            <h6 class="text-muted small mb-1 fw-bold text-uppercase">Agotados o Críticos</h6>
+                            <h3 class="fw-bold mb-0" th:text="${flores.?[stock <= 0].size()}">0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Info</th>
+                            <th>Precio</th>
+                            <th>Estado Stock</th>
+                            <th class="text-center">Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="f : ${flores}">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img th:src="${f.imagenUrl}" class="img-thumb me-3">
+                                    <div>
+                                        <span class="fw-bold d-block text-dark" th:text="${f.nombre}">Nombre</span>
+                                        <small class="text-muted" th:text="${#strings.abbreviate(f.descripcion, 30)}"></small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border rounded-pill">Florería Isabel's</span>
+                            </td>
+                            <td>
+                                <span class="fw-bold text-dark fs-5" th:text="'S/ ' + ${f.precio}"></span>
+                            </td>
+                            <td>
+                                <span th:class="${f.stock > 2 ? 'stock-badge bg-success-subtle text-success' : 'stock-badge bg-warning-subtle text-warning'}">
+                                    <i class="bi bi-layers-half me-1"></i>
+                                    <span th:text="${f.stock} + ' unds'"></span>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a th:href="@{/admin/editar/{id}(id=${f.id})}" class="btn btn-light btn-sm rounded-pill px-3 border shadow-sm" title="Editar">
+                                        <i class="bi bi-pencil-square text-primary"></i>
+                                    </a>
+                                    
+                                    <form th:action="@{/admin/reponer/{id}(id=${f.id})}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-light btn-sm rounded-pill px-3 border shadow-sm" title="Reponer +5">
+                                            <i class="bi bi-plus-lg text-success"></i>
+                                        </button>
+                                    </form>
+
+                                    <a th:href="@{/admin/eliminar/{id}(id=${f.id})}" 
+                                       class="btn btn-light btn-sm rounded-pill px-3 border shadow-sm" 
+                                       onclick="return confirm('¿Eliminar este producto permanentemente?')">
+                                        <i class="bi bi-trash3 text-danger"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<a routerLink="/" class="text-decoration-none small"><i class="bi bi-arrow-left"></i> Volver al catálogo</a>
+
+@if (confirmado(); as p) {
+  <div class="card tarjeta p-4 p-md-5 mt-3 text-center mx-auto" style="max-width: 560px">
+    <i class="bi bi-check-circle-fill text-success" style="font-size: 3.5rem"></i>
+    <h2 class="mt-2">¡Gracias por tu compra!</h2>
+    <p class="text-muted mb-1">Pedido <strong>{{ p.codigo }}</strong> · {{ p.descripcion }}</p>
+    <p class="text-muted">Total pagado con {{ p.metodoPago }}: <strong>{{ p.total | currency:'PEN':'S/ ':'1.2-2' }}</strong></p>
+    <p class="small">Entrega en: {{ p.direccionEntrega }}</p>
+    <a class="btn btn-rosa mt-2" routerLink="/mis-pedidos">Ver mis pedidos</a>
+  </div>
+} @else if (flor(); as f) {
+  <div class="row g-4 mt-1">
+    <div class="col-md-6">
+      <div class="card tarjeta">
+        @if (f.imagenUrl) {
+          <img class="flor-img" style="height: 360px" [src]="f.imagenUrl" [alt]="f.nombre">
+        } @else {
+          <div class="flor-placeholder" style="height: 360px"><i class="bi bi-flower1"></i></div>
+        }
+        <div class="card-body">
+          <h2>{{ f.nombre }}</h2>
+          <p class="text-muted">{{ f.descripcion }}</p>
+          <span class="precio fs-4">{{ f.precio | currency:'PEN':'S/ ':'1.2-2' }}</span>
+          <span class="ms-2 small text-muted">({{ f.stock }} disponibles)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card tarjeta p-4">
+        <h4 class="mb-3">Datos de entrega y pago</h4>
+
+        @if (!auth.logueado()) {
+          <p class="text-muted">Para comprar necesitas iniciar sesión.</p>
+          <a class="btn btn-rosa" routerLink="/login" [queryParams]="{ volver: '/flor/' + f.id }">Iniciar sesión</a>
+        } @else if (f.stock <= 0) {
+          <div class="alert alert-secondary mb-0">Este producto está agotado.</div>
+        } @else {
+          <form #formCompra="ngForm" (ngSubmit)="comprar()">
+            <div class="mb-3">
+              <label class="form-label" for="cantidad">Cantidad</label>
+              <input id="cantidad" name="cantidad" type="number" class="form-control" [(ngModel)]="cantidad"
+                     required min="1" [max]="f.stock" #cant="ngModel">
+              @if (cant.invalid && cant.touched) {
+                <div class="text-danger small">Ingresa una cantidad entre 1 y {{ f.stock }}.</div>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="direccion">Dirección de entrega</label>
+              <input id="direccion" name="direccion" class="form-control" [(ngModel)]="direccion" required
+                     maxlength="200" placeholder="Av. Principal 123, Miraflores" #dir="ngModel">
+              @if (dir.invalid && dir.touched) {
+                <div class="text-danger small">La dirección es obligatoria.</div>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="metodo">Método de pago</label>
+              <select id="metodo" name="metodoPago" class="form-select" [(ngModel)]="metodoPago">
+                @for (m of metodos; track m) {
+                  <option [value]="m">{{ m }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+              <span>Total: <span class="precio">{{ total() | currency:'PEN':'S/ ':'1.2-2' }}</span></span>
+              <button class="btn btn-rosa" type="submit" [disabled]="formCompra.invalid || enviando()">
+                {{ enviando() ? 'Procesando...' : 'Pagar pedido' }}
+              </button>
+            </div>
+          </form>
+        }
+
+        @if (error()) {
+          <div class="alert alert-danger mt-3 mb-0">{{ error() }}</div>
+        }
+      </div>
+    </div>
+  </div>
+} @else if (error()) {
+  <div class="alert alert-danger mt-3">{{ error() }}</div>
+} @else {
+  <p class="text-center text-muted py-5"><span class="spinner-border spinner-border-sm me-2"></span>Cargando...</p>
+}

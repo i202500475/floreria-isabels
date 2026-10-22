@@ -1,0 +1,46 @@
+# Compila el backend, ejecuta las pruebas JUnit y compila el frontend Angular
+name: CI - pruebas y compilacion
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  backend:
+    name: Backend - mvn test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ProyectoFloreria
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Ejecutar pruebas
+        run: mvn -B test
+      - name: Guardar reportes de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-junit
+          path: ProyectoFloreria/target/surefire-reports/
+
+  frontend:
+    name: Frontend - ng build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: floreria-frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar dependencias
+        run: npm install --no-audit --no-fund
+      - name: Compilar Angular
+        run: npx ng build --configuration production --base-href /tienda/

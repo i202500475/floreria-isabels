@@ -1,0 +1,25 @@
+:root {
+  --soft-pink: #fff0f3;
+  --accent-pink: #ffccd5;
+  --deep-pink: #ff4d6d;
+  --dark: #2d3436;
+}
+body { font-family: 'Poppins', sans-serif; background: var(--soft-pink); color: var(--dark); }
+h1, h2, h3, .titulo { font-family: 'Playfair Display', serif; }
+.marca { font-family: 'Dancing Script', cursive; color: var(--deep-pink) !important; font-size: 1.9rem; }
+.btn-rosa { background: var(--deep-pink); color: #fff; border: none; border-radius: 30px; padding: .5rem 1.4rem; }
+.btn-rosa:hover, .btn-rosa:focus { background: #e63e5c; color: #fff; }
+.btn-rosa:disabled { background: #f3a3b3; color: #fff; }
+.tarjeta { background: #fff; border: none; border-radius: 18px; box-shadow: 0 6px 20px rgba(255, 77, 109, .10); }
+.flor-img { height: 210px; object-fit: cover; border-radius: 18px 18px 0 0; width: 100%; }
+.flor-placeholder { height: 210px; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; color: var(--deep-pink); background: linear-gradient(135deg, var(--soft-pink), var(--accent-pink)); }
+.precio { color: var(--deep-pink); font-weight: 600; font-size: 1.15rem; }
+.badge-estado { font-size: .75rem; padding: .4em .8em; border-radius: 20px; }
+.estado-PAGADO { background: #ffe8a3; color: #7a5a00; }
+.estado-EN_CAMINO { background: #cfe8ff; color: #0b4f8a; }
+.estado-ENTREGADO { background: #c9f2d6; color: #146c2e; }
+.estado-CANCELADO { background: #e9ecef; color: #6c757d; }
+.estado-PENDIENTE { background: #ffe8a3; color: #7a5a00; }
+.hero { background: linear-gradient(135deg, #fff, var(--accent-pink)); border-radius: 24px; }
+.form-control:focus, .form-select:focus { border-color: var(--deep-pink); box-shadow: 0 0 0 .2rem rgba(255, 77, 109, .2); }
