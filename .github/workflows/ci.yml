@@ -43,4 +43,9 @@ jobs:
       - name: Instalar dependencias
         run: npm install --no-audit --no-fund
       - name: Compilar Angular
-        run: npx ng build --configuration production --base-href /tienda/
+        run: |
+          set -o pipefail
+          npx ng build --configuration production --base-href /tienda/ 2>&1 | tee build.log || {
+            # Publica las líneas de error como anotaciones para poder leerlas sin descargar el log
+            grep -E "ERROR|error|Error|✘|\[ERROR\]" -A4 build.log | head -60 | sed 's/^/::error::/' ;
+            exit 1; }
