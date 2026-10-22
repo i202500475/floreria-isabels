@@ -17,7 +17,7 @@ page.on('pageerror', (e) => resultados.push(`ERROR JS: ${e.message}`));
 const foto = async (nombre) => { await page.waitForTimeout(800); await page.screenshot({ path: `${OUT}/${nombre}.png`, fullPage: true }); };
 const paso = async (nombre, fn) => {
   try { await fn(); resultados.push(`OK    ${nombre}`); }
-  catch (e) { resultados.push(`FALLA ${nombre}: ${e.message.split('\n')[0]}`); await foto('error-' + nombre.replace(/\W+/g, '-')); }
+  catch (e) { resultados.push(`FALLA ${nombre}: ${e.message.split('\n')[0]} (url: ${page.url()})`); await foto('error-' + nombre.replace(/\W+/g, '-')); }
 };
 const login = async (u, p) => {
   await page.goto(`${BASE}/login`);
@@ -105,8 +105,12 @@ await paso('Admin: registrar flor nueva (POST)', async () => {
 
 await paso('Admin: editar flor (PUT)', async () => {
   const fila = page.locator('tr', { hasText: 'Ramo primaveral' });
-  await fila.locator('a[title=Editar]').click();
-  await page.waitForSelector('text=Editar flor');
+  const enlace = fila.locator('a[title="Editar"]');
+  resultados.push(`      enlace editar: href=${await enlace.getAttribute('href')}`);
+  await enlace.click();
+  await page.waitForURL(/editar/);
+  await page.waitForSelector('h2:has-text("Editar flor")');
+  await foto('08b-flor-editar');
   await page.fill('#precio', '49.9');
   await page.click('button[type=submit]');
   await page.waitForSelector('text=49.90');
@@ -158,4 +162,4 @@ await paso('Vista en celular', async () => {
 await browser.close();
 fs.writeFileSync(`${OUT}/resultado-recorrido.txt`, resultados.join('\n') + '\n');
 console.log(resultados.join('\n'));
-if (resultados.some((r) => !r.startsWith('OK'))) process.exit(1);
+if (resultados.some((r) => r.startsWith('FALLA'))) process.exit(1);

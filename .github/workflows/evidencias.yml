@@ -79,17 +79,19 @@ jobs:
 
       - name: Postman con newman
         run: |
+          set -o pipefail
           npx --yes newman@6 run Floreria_API.postman_collection.json --reporters cli,json \
-            --reporter-json-export evidencias/newman.json --no-color | tee evidencias/newman-resultado.txt
+            --reporter-json-export evidencias/newman.json --no-color 2>&1 | tee evidencias/newman-resultado.txt
           echo "::notice::newman: $(grep -E 'assertions' evidencias/newman-resultado.txt | tr -s ' ')"
 
       - name: Recorrido en el navegador (Playwright)
+        if: always()
         working-directory: pruebas-e2e
         run: |
           npm init -y > /dev/null
           npm install --no-audit --no-fund playwright@1.47.2
           npx playwright install --with-deps chromium
-          OUT=../evidencias/capturas node recorrido.mjs || { sed 's/^/::error::/' ../evidencias/capturas/resultado-recorrido.txt; exit 1; }
+          OUT=../evidencias/capturas node recorrido.mjs || { grep FALLA ../evidencias/capturas/resultado-recorrido.txt | sed 's/^/::error::/'; exit 1; }
 
       - name: Contraseñas en MySQL (hash BCrypt)
         if: always()
