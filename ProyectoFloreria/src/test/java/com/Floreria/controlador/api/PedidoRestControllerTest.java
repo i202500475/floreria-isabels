@@ -111,4 +111,30 @@ class PedidoRestControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.errores.metodoPago").exists());
     }
+    
+    @Test
+    @DisplayName("Un CLIENTE no puede cambiar el estado de un pedido (403)")
+    void clienteNoPuedeCambiarEstado() throws Exception {
+        String admin = ApiTestUtil.bearer(mvc, "admin", "1234");
+        long florId = crearFlor(admin, 2);
+
+        ApiTestUtil.registrarCliente(mvc, "compra5", "clave123");
+        String cliente = ApiTestUtil.bearer(mvc, "compra5", "clave123");
+
+        String json = mvc.perform(post("/api/pedidos")
+                        .header("Authorization", cliente)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(pedido(florId, 1)))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        long pedidoId = ApiTestUtil.numero(json, "$.id");
+
+        mvc.perform(put("/api/pedidos/" + pedidoId + "/estado")
+                        .header("Authorization", cliente)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"estado\":\"CANCELADO\"}"))
+                .andExpect(status().isForbidden());
+    }
+
 }
