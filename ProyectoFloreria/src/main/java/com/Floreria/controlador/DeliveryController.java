@@ -24,11 +24,10 @@ public class DeliveryController {
     
     
 
-    // 1. Dashboard Principal: Muestra pedidos PENDIENTES o EN_PREPARACION
+    // 1. Dashboard Principal
     @GetMapping("/pedidos")
     public String verPedidos(Model model) {
-        // Asumiendo que tienes este método en tu repositorio, si no, usa findAll() 
-        // y filtra por lógica, pero aquí te lo dejo funcional:
+
         List<Pedido> lista = pedidoRepo.findAll(); 
         model.addAttribute("pedidos", lista);
         return "delivery/pedidos"; 
@@ -37,7 +36,7 @@ public class DeliveryController {
     
     
     
-    // 2. NUEVO: Vista de Detalle (La Hoja de Ruta con el Mapa)
+
     
     
     @GetMapping("/detalle")
@@ -51,10 +50,10 @@ public class DeliveryController {
             pedidoRepo.save(pedido);
         }
         
-        // Agregamos una validación extra para evitar el error 500 en la vista
+
         model.addAttribute("pedido", pedido);
         
-        // Si el cliente es nulo, podrías imprimir un log para saber cuál pedido falla
+
         if (pedido.getCliente() == null) {
             System.out.println("OJO: El pedido #" + id + " no tiene un cliente asignado.");
         }
@@ -77,7 +76,7 @@ public class DeliveryController {
     
     
 
-    // --- Métodos de limpieza (Opcionales si ya no usas las rutas antiguas) ---
+    // --- Métodos de limpieza ---
 
     @PostMapping("/notificar/{id}")
     public String enviarVoucher(@PathVariable Long id) {

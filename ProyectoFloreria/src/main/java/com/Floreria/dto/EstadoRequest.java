@@ -3,7 +3,7 @@ package com.Floreria.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-/** Nuevo estado de un pedido: PUT /api/pedidos/{id}/estado */
+
 public class EstadoRequest {
 
     @NotBlank(message = "El estado es obligatorio")

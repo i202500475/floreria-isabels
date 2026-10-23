@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Datos para registrar una compra: POST /api/pedidos */
+
 public class PedidoRequest {
 
     @NotNull(message = "Debe indicar la flor")

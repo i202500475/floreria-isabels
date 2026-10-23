@@ -12,15 +12,15 @@ public class Rol {
 
     private String nombre;
 
-    // 1. Constructor vacío (Obligatorio para que Hibernate no de error)
+    // 1. Constructor vacío
     public Rol() {}
 
-    // 2. ESTE ES EL QUE FALTA: Constructor para recibir el nombre
+    // 2. ESTE ES EL QUE FALTA
     public Rol(String nombre) {
         this.nombre = nombre;
     }
 
-    // --- Tus Getters y Setters manuales que ya pusimos antes ---
+    // --- Tus Getters y Setters ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getNombre() { return nombre; }

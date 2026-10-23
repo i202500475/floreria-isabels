@@ -18,12 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Servicio web REST de login.
- * El usuario y la contraseña se validan contra la tabla "usuarios" de MySQL.
- * La contraseña está cifrada con BCryptPasswordEncoder, por eso se compara con encoder.matches().
- * Si el login es correcto se devuelve un token que Angular envía en cada petición.
- */
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {
@@ -41,14 +36,13 @@ public class AuthRestController {
         this.tokenService = tokenService;
     }
 
-    // POST http://localhost:8080/api/auth/login
-    // Body JSON: { "username": "admin", "password": "1234" }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
 
         Optional<Usuario> usuarioOpt = usuarioRepo.findByUsername(request.getUsername().trim());
 
-        // Mismo mensaje para "no existe" y "clave incorrecta" (buena práctica de seguridad)
+        // Mismo mensaje para "no existe" y "clave incorrecta"
         if (usuarioOpt.isEmpty() || !encoder.matches(request.getPassword(), usuarioOpt.get().getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("mensaje", "Usuario o contraseña incorrectos"));
@@ -67,7 +61,7 @@ public class AuthRestController {
                 "Login correcto"));
     }
 
-    // POST /api/auth/registro -> crea un cliente nuevo (contraseña cifrada con BCrypt)
+    // POST /api/auth/registro -> crea un cliente nuevo
     @PostMapping("/registro")
     public ResponseEntity<Map<String, String>> registro(@Valid @RequestBody RegistroRequest req) {
         String username = req.getUsername().trim();

@@ -13,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.util.Collections;
 
-/**
- * Datos iniciales: roles, usuarios admin y repartidor, y (si la tabla está vacía)
- * el catálogo de ejemplo de la florería. Se ejecuta al iniciar la aplicación.
- */
+
 @Component
 public class DataInitializer implements CommandLineRunner {
 
@@ -45,7 +42,7 @@ public class DataInitializer implements CommandLineRunner {
         crearSiNoExiste("ROLE_CLIENTE");
         crearSiNoExiste("ROLE_DELIVERY");
 
-        // 2. Usuario administrador (contraseña configurable con ADMIN_PASSWORD)
+        // 2. Usuario administrador
         if (usuarioRepo.findByUsername("admin").isEmpty()) {
             Usuario admin = new Usuario();
             admin.setUsername("admin");
@@ -67,7 +64,7 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("--> Usuario ROLE_DELIVERY creado con éxito");
         }
 
-        // 4. Catálogo de ejemplo (mismos productos de floreria.sql)
+        // 4. Catálogo de ejemplo
         if (seedCatalogo && florRepo.count() == 0) {
             flor("Ramo de Rosas", "Ramito de rosas para regalar a tu pareja.", 15, "https://i.pinimg.com/1200x/4b/0a/d0/4b0ad00e307edbed46cfe121cfcfcd6e.jpg");
             flor("Girasoles", "Al igual que el girasol, mi corazón siempre gira hacia ti.", 22, "https://i.pinimg.com/736x/5a/03/51/5a0351d6308356d22ff42d9dd8d1849d.jpg");

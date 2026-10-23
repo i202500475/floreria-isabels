@@ -21,14 +21,14 @@ public class AdminController {
     public String dashboard(Model model) {
         List<Flor> listaFlores = florRepo.findAll();
         model.addAttribute("flores", listaFlores);
-        return "admin/panel"; // Nombre exacto de tu archivo panel.html
+        return "admin/panel";
     }
 
     // 2. Mostrar Formulario para Nueva Flor
     @GetMapping("/nuevo")
     public String nuevaFlor(Model model) {
         model.addAttribute("flor", new Flor());
-        return "admin/formulario"; // Nombre de tu archivo formulario-html
+        return "admin/formulario";
     }
 
     // 3. Guardar o Actualizar Flor

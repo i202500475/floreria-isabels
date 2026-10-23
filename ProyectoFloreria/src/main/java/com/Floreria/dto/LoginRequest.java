@@ -3,7 +3,7 @@ package com.Floreria.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/** Datos que envía el cliente (Postman / Angular) al endpoint POST /api/auth/login */
+
 public class LoginRequest {
 
     @NotBlank(message = "El usuario es obligatorio")

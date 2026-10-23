@@ -47,7 +47,7 @@ public class Pedido {
     
     
 
-    // --- GETTERS Y SETTERS MANUALES (Para asegurar que Spring y Thymeleaf los vean) ---
+    // --- GETTERS Y SETTERS MANUALES  ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

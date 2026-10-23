@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class AppController {
 	@Autowired
-	private PedidoRepository pedidoRepo; // Inyectamos tu repositorio
+	private PedidoRepository pedidoRepo;
     
     @Autowired 
     private FlorService service;
@@ -33,7 +33,7 @@ public class AppController {
     @Autowired
     private UsuarioRepository usuarioRepo;
 
-    // --- RUTAS PÚBLICAS (Cualquiera puede verlas) ---
+    // --- RUTAS PÚBLICAS  ---
 
     @GetMapping("/")
     public String index(Model m) {
@@ -49,7 +49,7 @@ public class AppController {
         return "detalle";
     }
 
-    // --- RUTAS DE CLIENTES (Requieren Login) ---
+    // --- RUTAS DE CLIENTES ---
 
     @GetMapping("/pago/{id}")
     public String verPago(@PathVariable Long id, Model m) {
@@ -65,17 +65,17 @@ public class AppController {
     }
 
     
-    @GetMapping("/rastrear-delivery") // O la ruta que prefieras
+    @GetMapping("/rastrear-delivery")
     public String verApartadoDelivery(Model m) {
-        // Aquí puedes buscar los pedidos pendientes para el repartidor
-        return "delivery/detalle"; // <--- Fíjate que apunte a la carpeta 'delivery'
+
+        return "delivery/detalle";
     }
     
     
     
-    @GetMapping("/mis-pedidos") // Cambiado a la ruta que usabas antes
+    @GetMapping("/mis-pedidos")
     public String verMisPedidos(Model model, Principal principal) {
-        // Obtenemos el último pedido del usuario que inició sesión
+
         Pedido ultimoPedido = pedidoService.obtenerUltimo(principal.getName());
 
         if (ultimoPedido != null) {
@@ -86,7 +86,7 @@ public class AppController {
             model.addAttribute("tiempoEstimado", 10);
         }
 
-        // Nombre real del usuario logueado (antes estaba escrito fijo)
+        // Nombre real del usuario logueado
         String nombre = usuarioRepo.findByUsername(principal.getName())
                 .map(u -> u.getNombreCompleto() != null ? u.getNombreCompleto() : u.getUsername())
                 .orElse(principal.getName());

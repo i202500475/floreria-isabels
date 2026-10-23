@@ -8,7 +8,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        // Esto busca el archivo "login.html" en src/main/resources/templates
+
         return "login"; 
     }
 }

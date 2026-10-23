@@ -13,15 +13,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Servicios REST de pedidos (ventas) consumidos por Angular.
- *  GET    /api/pedidos/mis-pedidos   -> pedidos del usuario logueado
- *  GET    /api/pedidos               -> todos los pedidos (ADMIN / DELIVERY)
- *  GET    /api/pedidos/{id}          -> un pedido (ADMIN / DELIVERY)
- *  POST   /api/pedidos               -> registrar compra (usuario logueado)
- *  PUT    /api/pedidos/{id}/estado   -> cambiar estado (ADMIN / DELIVERY)
- *  DELETE /api/pedidos/{id}          -> eliminar pedido (ADMIN)
- */
+
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoRestController {

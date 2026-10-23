@@ -32,7 +32,7 @@ public class Usuario {
     // Constructor vacío obligatorio para JPA
     public Usuario() {}
 
-    // --- GETTERS Y SETTERS MANUALES (Para eliminar el error rojo) ---
+    // --- GETTERS Y SETTERS MANUALES ---
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

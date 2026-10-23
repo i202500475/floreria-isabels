@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/** Convierte los errores de los servicios REST en respuestas JSON claras. */
+
 @RestControllerAdvice(basePackages = "com.Floreria.controlador.api")
 public class ApiExceptionHandler {
 
-    // 400: datos que no cumplen las validaciones (@NotBlank, @Positive, etc.)
+    // 400: datos que no cumplen las validaciones
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> validacion(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new LinkedHashMap<>();
@@ -42,7 +42,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", ex.getMessage()));
     }
 
-    // 409: regla de negocio (stock insuficiente, pedido ya entregado...)
+    // 409: regla de negocio
     @ExceptionHandler(ReglaNegocioException.class)
     public ResponseEntity<Map<String, String>> reglaNegocio(ReglaNegocioException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensaje", ex.getMessage()));

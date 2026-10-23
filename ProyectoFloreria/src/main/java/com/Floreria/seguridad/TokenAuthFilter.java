@@ -13,11 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-/**
- * Filtro que lee la cabecera "Authorization: Bearer <token>" y, si el token es válido,
- * autentica al usuario en Spring Security con sus roles. Se registra en SecurityConfig
- * (no es @Component para que no se ejecute dos veces).
- */
+
 public class TokenAuthFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
@@ -42,7 +38,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 } catch (UsernameNotFoundException e) {
-                    // el usuario fue eliminado: se ignora el token
+
                 }
             }
         }

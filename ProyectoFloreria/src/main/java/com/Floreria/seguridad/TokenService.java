@@ -6,12 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Genera y valida los tokens de acceso que usa el frontend Angular.
- * Al hacer login se crea un token aleatorio (UUID) asociado al usuario;
- * Angular lo envía en cada petición en la cabecera: Authorization: Bearer <token>.
- * Los tokens se guardan en memoria y se pierden al reiniciar el servidor.
- */
+
 @Service
 public class TokenService {
 

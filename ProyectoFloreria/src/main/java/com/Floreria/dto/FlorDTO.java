@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-/** Datos de entrada para crear (POST) o actualizar (PUT) una flor vía REST */
+
 public class FlorDTO {
 
     @NotBlank(message = "El nombre es obligatorio")

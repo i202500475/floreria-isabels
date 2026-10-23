@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/** Datos para registrar un cliente nuevo: POST /api/auth/registro */
+
 public class RegistroRequest {
 
     @NotBlank(message = "El usuario es obligatorio")

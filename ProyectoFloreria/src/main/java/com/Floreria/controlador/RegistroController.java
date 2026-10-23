@@ -34,7 +34,7 @@ public class RegistroController {
 
     @PostMapping("/guardar")
     public String registrarUsuario(@ModelAttribute Usuario usuario) {
-        // Validaciones básicas
+
         if (usuario.getUsername() == null || usuario.getUsername().isBlank()
                 || usuario.getPassword() == null || usuario.getPassword().length() < 4) {
             return "redirect:/registro?error=datos";

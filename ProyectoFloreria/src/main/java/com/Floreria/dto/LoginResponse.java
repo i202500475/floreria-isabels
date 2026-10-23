@@ -2,7 +2,7 @@ package com.Floreria.dto;
 
 import java.util.List;
 
-/** Respuesta del login correcto (nunca se devuelve la contraseña) */
+
 public class LoginResponse {
     private Long id;
     private String username;

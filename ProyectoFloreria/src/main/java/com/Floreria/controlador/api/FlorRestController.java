@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Servicios REST del catálogo de flores (GET, POST, PUT y DELETE).
- * Todas las operaciones persisten en la base de datos MySQL "floreria".
- * Estos servicios serán consumidos por el frontend en Angular.
- */
+
 @RestController
 @RequestMapping("/api/flores")
 public class FlorRestController {

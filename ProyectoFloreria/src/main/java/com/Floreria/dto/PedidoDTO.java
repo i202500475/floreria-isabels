@@ -3,10 +3,7 @@ package com.Floreria.dto;
 import com.Floreria.modelo.Pedido;
 import java.time.LocalDateTime;
 
-/**
- * Datos de un pedido que devuelve la API.
- * Se usa un DTO para NO exponer la entidad Usuario (que contiene la contraseña cifrada).
- */
+
 public class PedidoDTO {
     private Long id;
     private String codigo;
