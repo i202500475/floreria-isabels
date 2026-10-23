@@ -1,0 +1,32 @@
++----+----------+--------------------------------------------------------------+
+| id | username | password                                                     |
++----+----------+--------------------------------------------------------------+
+|  1 | admin    | $2a$10$tMoeR.HtZCD1Tn96jVnb6.JZ3xmNCqb43n38DP/v0wdCoU9HiWL7S |
+|  2 | Deli     | $2a$10$l.BGlKKRA8qYw61umpm0WOxEKyPYz0N.NmAx0XXM87dfH.3qD.zXW |
+|  3 | cliente1 | $2a$10$9T14y0Fmm8lLE2HW/PHTTunnqeggp5eZgpl3J8Ng3IUDKskWCgg7q |
+|  4 | maria    | $2a$10$AoIXOMe1QMudw43v27tOsO0lnF.vLTQ6hlfRCZTRIhBrt2iv2gkWy |
++----+----------+--------------------------------------------------------------+
++----+-------------------------+--------+-------+
+| id | nombre                  | precio | stock |
++----+-------------------------+--------+-------+
+|  2 | Girasoles               |     22 |     9 |
+|  3 | Bouquet                 |      8 |     8 |
+|  4 | Flores HB               |     30 |    10 |
+|  5 | Orquídeas               |     15 |    10 |
+|  6 | Tulipanes               |     25 |    10 |
+|  7 | Dalias y lavanda        |     15 |    10 |
+|  8 | Lirios                  |     25 |    10 |
+|  9 | Lavanda                 |     35 |    10 |
+| 10 | Claveles                |     10 |    10 |
+| 11 | Rosas eternas con luna  |     40 |    10 |
+| 12 | Peluche + flor          |     55 |    10 |
+| 13 | Detalle de declaración  |     25 |    10 |
+| 14 | Regalo completo         |     65 |    10 |
+| 15 | Globo decorado          |     15 |    10 |
+| 16 | Ramo de girasoles       |     65 |     5 |
++----+-------------------------+--------+-------+
++----+------------+-----------------------+-------+-----------+-------------+
+| id | cliente_id | descripcion_productos | total | estado    | metodo_pago |
++----+------------+-----------------------+-------+-----------+-------------+
+|  2 |          4 | 2x Bouquet            |    16 | ENTREGADO | Yape        |
++----+------------+-----------------------+-------+-----------+-------------+

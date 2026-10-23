@@ -1,0 +1,36 @@
+ProyectoFloreriaApplicationTests pruebas= 1 fallas=0 errores=0
+    OK    contextLoads
+AuthRestControllerTest           pruebas= 8 fallas=0 errores=0
+    OK    passwordIncorrecta
+    OK    registroYLogin
+    OK    camposVacios
+    OK    loginCorrecto
+    OK    registroCorreoInvalido
+    OK    jsonInvalido
+    OK    usuarioInexistente
+    OK    registroDuplicado
+FlorRestControllerTest           pruebas= 9 fallas=0 errores=0
+    OK    clienteNoPuedeActualizarFlor
+    OK    actualizar
+    OK    clienteNoPuedeCrear
+    OK    crearYBuscar
+    OK    eliminar
+    OK    crearSinToken
+    OK    listarPublico
+    OK    clienteNoPuedeEliminarFlor
+    OK    datosInvalidos
+PedidoRestControllerTest         pruebas= 5 fallas=0 errores=0
+    OK    flujoCompleto
+    OK    stockInsuficiente
+    OK    metodoPagoInvalido
+    OK    permisos
+    OK    clienteNoPuedeCambiarEstado
+FlorRepositoryTest               pruebas= 4 fallas=0 errores=0
+    OK    listarFlores
+    OK    actualizarFlor
+    OK    eliminarFlor
+    OK    insertarFlor
+UsuarioRepositoryTest            pruebas= 2 fallas=0 errores=0
+    OK    buscarUsuarioInexistente
+    OK    guardarUsuarioConPasswordCifrada
+TOTAL pruebas=29 fallas=0 errores=0 omitidas=0

@@ -1,0 +1,16 @@
+OK    Catálogo carga los productos
+OK    Login con contraseña incorrecta muestra el error
+OK    Registro de cliente
+OK    Login del cliente
+OK    Compra con Yape
+OK    Mis pedidos muestra la compra
+OK    Cliente no puede entrar a Gestionar flores
+OK    Admin: gestionar flores
+OK    Admin: registrar flor nueva (POST)
+      enlace editar: href=/tienda/admin/flores/17/editar
+OK    Admin: editar flor (PUT)
+OK    Admin: eliminar flor (DELETE)
+OK    Admin: pedidos y total vendido
+OK    Repartidor: marca En camino y Entregado
+OK    El cliente ve su pedido ENTREGADO
+OK    Vista en celular

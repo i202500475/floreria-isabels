@@ -1,0 +1,127 @@
+npm warn deprecated har-validator@5.1.5: this library is no longer supported
+npm warn deprecated uuid@3.4.0: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated @faker-js/faker@5.5.3: Please update to a newer version.
+newman
+
+Floreria Isabel's - API REST
+
+❏ 1. Autenticación
+↳ Login admin (200, guarda token)
+  POST http://localhost:8080/api/auth/login [200 OK, 582B, 228ms]
+  ✓  HTTP 200
+
+↳ Login delivery (200, guarda token)
+  POST http://localhost:8080/api/auth/login [200 OK, 579B, 94ms]
+  ✓  HTTP 200
+
+↳ Registro cliente (201)
+  POST http://localhost:8080/api/auth/registro [201 Created, 496B, 133ms]
+  ✓  HTTP 201
+
+↳ Login cliente (200, guarda token)
+  POST http://localhost:8080/api/auth/login [200 OK, 584B, 93ms]
+  ✓  HTTP 200
+
+↳ Registro duplicado (409)
+  POST http://localhost:8080/api/auth/registro [409 Conflict, 479B, 12ms]
+  ✓  HTTP 409
+
+↳ Clave incorrecta (401)
+  POST http://localhost:8080/api/auth/login [401 Unauthorized, 480B, 93ms]
+  ✓  HTTP 401
+
+↳ Campos vacíos (400)
+  POST http://localhost:8080/api/auth/login [400 Bad Request, 545B, 15ms]
+  ✓  HTTP 400
+
+❏ 2. Flores (CRUD)
+↳ GET listar (público)
+  GET http://localhost:8080/api/flores [200 OK, 3.66kB, 12ms]
+  ✓  HTTP 200
+
+↳ GET por id
+  GET http://localhost:8080/api/flores/1 [200 OK, 642B, 19ms]
+  ✓  HTTP 200
+
+↳ POST registrar (admin, 201)
+  POST http://localhost:8080/api/flores [201 Created, 549B, 31ms]
+  ✓  HTTP 201
+
+↳ PUT actualizar (admin)
+  PUT http://localhost:8080/api/flores/1 [200 OK, 542B, 29ms]
+  ✓  HTTP 200
+
+↳ DELETE eliminar (admin)
+  DELETE http://localhost:8080/api/flores/1 [200 OK, 465B, 26ms]
+  ✓  HTTP 200
+
+↳ POST datos inválidos (400)
+  POST http://localhost:8080/api/flores [400 Bad Request, 562B, 11ms]
+  ✓  HTTP 400
+
+↳ POST sin token (401)
+  POST http://localhost:8080/api/flores [401 Unauthorized, 467B, 18ms]
+  ✓  HTTP 401
+
+↳ POST como cliente (403)
+  POST http://localhost:8080/api/flores [403 Forbidden, 529B, 20ms]
+  ✓  HTTP 403
+
+❏ 3. Pedidos
+↳ POST comprar (cliente, 201)
+  POST http://localhost:8080/api/pedidos [201 Created, 640B, 47ms]
+  ✓  HTTP 201
+
+↳ POST stock insuficiente (409)
+  POST http://localhost:8080/api/pedidos [409 Conflict, 492B, 18ms]
+  ✓  HTTP 409
+
+↳ GET mis pedidos (cliente)
+  GET http://localhost:8080/api/pedidos/mis-pedidos [200 OK, 634B, 22ms]
+  ✓  HTTP 200
+
+↳ GET todos (admin)
+  GET http://localhost:8080/api/pedidos [200 OK, 634B, 16ms]
+  ✓  HTTP 200
+
+↳ GET todos como cliente (403)
+  GET http://localhost:8080/api/pedidos [403 Forbidden, 530B, 12ms]
+  ✓  HTTP 403
+
+↳ PUT estado EN_CAMINO (delivery)
+  PUT http://localhost:8080/api/pedidos/1/estado [200 OK, 635B, 22ms]
+  ✓  HTTP 200
+
+↳ PUT estado ENTREGADO (delivery)
+  PUT http://localhost:8080/api/pedidos/1/estado [200 OK, 635B, 18ms]
+  ✓  HTTP 200
+
+↳ DELETE pedido (admin)
+  DELETE http://localhost:8080/api/pedidos/1 [200 OK, 467B, 21ms]
+  ✓  HTTP 200
+
+❏ 4. Cerrar sesión
+↳ Logout cliente
+  POST http://localhost:8080/api/auth/logout [200 OK, 452B, 15ms]
+  ✓  HTTP 200
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                24 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                24 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                24 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 1393ms                                      │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 6.07kB (approx)                            │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 42ms [min: 11ms, max: 228ms, s.d.: 50ms] │
+└─────────────────────────────────────────────────────────────────┘
