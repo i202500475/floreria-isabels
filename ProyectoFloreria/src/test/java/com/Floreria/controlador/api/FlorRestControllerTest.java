@@ -105,4 +105,32 @@ class FlorRestControllerTest {
             .andExpect(jsonPath("$.errores.precio").exists())
             .andExpect(jsonPath("$.errores.stock").exists());
     }
+    
+    @Test
+    @DisplayName("Un CLIENTE no puede actualizar flores (403)")
+    void clienteNoPuedeActualizarFlor() throws Exception {
+        long id = crearFlor();
+
+        ApiTestUtil.registrarCliente(mvc, "cliactualiza", "clave123");
+        String cliente = ApiTestUtil.bearer(mvc, "cliactualiza", "clave123");
+
+        mvc.perform(put("/api/flores/" + id)
+                .header("Authorization", cliente)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"nombre\":\"Flor modificada\",\"precio\":80.0,\"stock\":10}"))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("Un CLIENTE no puede eliminar flores (403)")
+    void clienteNoPuedeEliminarFlor() throws Exception {
+        long id = crearFlor();
+
+        ApiTestUtil.registrarCliente(mvc, "clielimina", "clave123");
+        String cliente = ApiTestUtil.bearer(mvc, "clielimina", "clave123");
+
+        mvc.perform(delete("/api/flores/" + id)
+                .header("Authorization", cliente))
+            .andExpect(status().isForbidden());
+    }
 }
