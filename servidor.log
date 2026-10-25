@@ -1,0 +1,41 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2026-10-25T16:06:43.462Z  INFO 3293 --- [           main] c.Floreria.ProyectoFloreriaApplication   : Starting ProyectoFloreriaApplication v0.0.1-SNAPSHOT using Java 17.0.20.1 with PID 3293 (/home/runner/work/floreria-isabels/floreria-isabels/ProyectoFloreria/target/ProyectoFloreria-0.0.1-SNAPSHOT.jar started by runner in /home/runner/work/floreria-isabels/floreria-isabels)
+2026-10-25T16:06:43.468Z  INFO 3293 --- [           main] c.Floreria.ProyectoFloreriaApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-10-25T16:06:44.300Z  INFO 3293 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-25T16:06:44.364Z  INFO 3293 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 4 JPA repository interfaces.
+2026-10-25T16:06:44.973Z  INFO 3293 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-10-25T16:06:44.989Z  INFO 3293 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-25T16:06:44.989Z  INFO 3293 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.20]
+2026-10-25T16:06:45.019Z  INFO 3293 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-25T16:06:45.020Z  INFO 3293 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1445 ms
+2026-10-25T16:06:45.203Z  INFO 3293 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-25T16:06:45.260Z  INFO 3293 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-10-25T16:06:45.293Z  INFO 3293 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-25T16:06:45.495Z  INFO 3293 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-25T16:06:45.514Z  INFO 3293 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-25T16:06:45.783Z  INFO 3293 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@60dcf9ec
+2026-10-25T16:06:45.785Z  INFO 3293 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-25T16:06:46.491Z  INFO 3293 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-25T16:06:46.852Z  INFO 3293 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-25T16:06:47.221Z  WARN 3293 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-10-25T16:06:47.309Z  INFO 3293 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2026-10-25T16:06:47.510Z  INFO 3293 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f53295e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5f8a29ca, org.springframework.security.web.context.SecurityContextHolderFilter@75caecf7, org.springframework.security.web.header.HeaderWriterFilter@2aeb3f3b, org.springframework.web.filter.CorsFilter@4f93a8f6, org.springframework.security.web.authentication.logout.LogoutFilter@6e627ab8, com.Floreria.seguridad.TokenAuthFilter@492d38a2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2f97e3de, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7dc9b41a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2fd409c1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@121c1a08, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3fc2e100, org.springframework.security.web.access.ExceptionTranslationFilter@14af57c3, org.springframework.security.web.access.intercept.AuthorizationFilter@27ea552d]
+2026-10-25T16:06:47.777Z  INFO 3293 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-10-25T16:06:47.791Z  INFO 3293 --- [           main] c.Floreria.ProyectoFloreriaApplication   : Started ProyectoFloreriaApplication in 4.743 seconds (process running for 5.194)
+Creando rol: ROLE_ADMIN
+Creando rol: ROLE_CLIENTE
+Creando rol: ROLE_DELIVERY
+--> Usuario ROLE_ADMIN creado con éxito
+--> Usuario ROLE_DELIVERY creado con éxito
+--> Catálogo de ejemplo cargado (15 productos)
+2026-10-25T16:06:48.678Z  INFO 3293 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-25T16:06:48.678Z  INFO 3293 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-25T16:06:48.679Z  INFO 3293 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
