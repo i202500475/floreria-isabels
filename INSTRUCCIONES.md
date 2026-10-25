@@ -108,3 +108,19 @@ App Service → **Configuración → Variables de entorno** → agregar:
    - *Variables* → `AZURE_WEBAPP_NAME` = nombre del App Service.
 3. GitHub → **Actions → Publicar en Azure → Run workflow**.
 4. Abrir `https://<nombre-app>.azurewebsites.net/tienda/` (el primer arranque puede tardar 1–2 minutos).
+
+## 7. Ejecutar con Docker (opcional)
+
+Requisito: Docker Desktop abierto. Desde la carpeta raíz del proyecto:
+
+```bash
+docker compose up --build
+```
+
+- Se crean dos contenedores: `floreria-mysql` (MySQL 8, puerto 3307 en tu PC) y `floreria-app` (Spring Boot + Angular, puerto 8080).
+- La primera vez tarda unos minutos porque compila Angular y el backend dentro de la imagen.
+- Tienda: http://localhost:8080/tienda/ · API: http://localhost:8080/api/flores
+- Usuario administrador: `admin` / `1234` (se cambia con `ADMIN_PASSWORD` en `docker-compose.yml`).
+- Para detener: `docker compose down` (agrega `-v` para borrar también los datos).
+
+El `Dockerfile` es de varias etapas: compila Angular con Node 20, lo copia en `static/tienda` del backend, empaqueta el JAR con Maven y lo ejecuta sobre una imagen con solo Java 17. El flujo `.github/workflows/docker.yml` construye la imagen y prueba el catálogo, la tienda y el login en cada cambio.

@@ -1,0 +1,8 @@
+**/node_modules
+**/dist
+**/.angular
+**/target
+ProyectoFloreria/src/main/resources/static/tienda
+.git
+.github
+pruebas-e2e

@@ -1,0 +1,35 @@
+name: Docker - imagen y docker compose
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Construir y levantar (app + MySQL)
+        run: docker compose up -d --build
+      - name: Esperar a que la API responda
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8080/api/flores >/dev/null && break
+            sleep 5
+          done
+          docker compose ps
+      - name: Probar la tienda en el contenedor
+        run: |
+          set -e
+          n=$(curl -sf http://localhost:8080/api/flores | python3 -c "import sys,json;print(len(json.load(sys.stdin)))")
+          echo "Flores en el catalogo: $n"; test "$n" -ge 1
+          curl -sf -o /dev/null -w "Tienda Angular: %{http_code}\n" http://localhost:8080/tienda/
+          code=$(curl -s -o /dev/null -w "%{http_code}" -H 'Content-Type: application/json' -d '{"username":"admin","password":"1234"}' http://localhost:8080/api/auth/login)
+          echo "Login admin: $code"; test "$code" = 200
+          code=$(curl -s -o /dev/null -w "%{http_code}" -H 'Content-Type: application/json' -d '{"username":"admin","password":"mala"}' http://localhost:8080/api/auth/login)
+          echo "Login con clave incorrecta: $code"; test "$code" = 401
+          docker images floreria-isabels
+      - name: Logs si algo falla
+        if: failure()
+        run: docker compose logs app | tail -80

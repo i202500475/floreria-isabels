@@ -1,0 +1,38 @@
+# Levanta la tienda Isabel's con su base de datos MySQL.
+#   docker compose up --build
+#   Tienda: http://localhost:8080/tienda/    API: http://localhost:8080/api/flores
+services:
+  db:
+    image: mysql:8.0
+    container_name: floreria-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: floreria
+    ports:
+      - "3307:3306"          # 3307 para no chocar con el MySQL de XAMPP
+    volumes:
+      - floreria-datos:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    image: floreria-isabels:1.0
+    container_name: floreria-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/floreria?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Lima
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      ADMIN_PASSWORD: "1234"
+      SEED_CATALOGO: "true"
+    ports:
+      - "8080:8080"
+
+volumes:
+  floreria-datos:
