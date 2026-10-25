@@ -13,15 +13,17 @@ services:
     volumes:
       - floreria-datos:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]   # por TCP: espera al servidor definitivo, no al temporal de inicio
       interval: 5s
       timeout: 5s
-      retries: 20
+      retries: 30
+      start_period: 20s
 
   app:
     build: .
     image: floreria-isabels:1.0
     container_name: floreria-app
+    restart: on-failure     # si MySQL aún no acepta conexiones, vuelve a intentar
     depends_on:
       db:
         condition: service_healthy
